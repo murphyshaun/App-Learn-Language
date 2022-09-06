@@ -1,0 +1,217 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:prop="clr-namespace:LearnNewWord.Managers.Properties">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ColorGeneric.xaml" />
+        <ResourceDictionary Source="Font.xaml" />
+        <ResourceDictionary Source="Icon.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+        <Setter Property="Width" Value="168" />
+        <Setter Property="Height" Value="89" />
+        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize28}" />
+        <Setter Property="FontWeight" Value="{StaticResource SemiBold}" />
+        <Setter Property="FontStyle" Value="Normal" />
+        <Setter Property="Background" Value="{StaticResource WhiteBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="BorderBrush" Value="{StaticResource Color11Brush}" />
+        <Setter Property="Foreground" Value="{StaticResource Color20Brush}" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="5 5" />
+        <Setter Property="prop:CustomizeProperty.ColorHover" Value="{StaticResource Color1Brush}" />
+        <Setter Property="prop:CustomizeProperty.ColorPress" Value="{StaticResource Color1Brush}" />
+        <Setter Property="prop:CustomizeProperty.ColorDisable" Value="{StaticResource Color3Brush}" />
+        <Setter Property="prop:CustomizeProperty.BorderBrushDisable" Value="{StaticResource Color13Brush}" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Padding="{TemplateBinding Padding}"
+                            CornerRadius="5 5 5 5">
+                        <Border.Effect>
+                            <DropShadowEffect Opacity="0.08"/>
+                        </Border.Effect>
+                        <TextBlock Text="{TemplateBinding Content}"
+                                   FontFamily="{TemplateBinding FontFamily}"
+                                   FontSize="{TemplateBinding FontSize}"
+                                   FontWeight="{TemplateBinding FontWeight}"
+                                   FontStyle="{TemplateBinding FontStyle}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(prop:CustomizeProperty.ColorHover)}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(prop:CustomizeProperty.ColorDisable)}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(prop:CustomizeProperty.BorderBrushDisable)}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity="0.5"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="0.95" ScaleY="0.95"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ButtonIcon" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonStyle1}">
+        <Setter Property="prop:CustomizeProperty.IconWidth" Value="50" />
+        <Setter Property="prop:CustomizeProperty.IconHeight" Value="50" />
+        <Setter Property="prop:CustomizeProperty.Icon" Value="{StaticResource IconArrowDown}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Padding="{TemplateBinding Padding}"
+                            CornerRadius="5 5 5 5">
+                        <Border.Effect>
+                            <DropShadowEffect Opacity="0.08"/>
+                        </Border.Effect>
+                        <Image x:Name="icon" 
+                               Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(prop:CustomizeProperty.IconHeight)}"
+                               Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(prop:CustomizeProperty.IconWidth)}"
+                               Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(prop:CustomizeProperty.Icon)}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(prop:CustomizeProperty.ColorHover)}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(prop:CustomizeProperty.ColorDisable)}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(prop:CustomizeProperty.BorderBrushDisable)}" />
+                            <Setter Property="Opacity" Value="0.5" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity="0.5"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ButtonIconText" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonStyle1}">
+        <Setter Property="prop:CustomizeProperty.IconWidth" Value="22" />
+        <Setter Property="prop:CustomizeProperty.IconHeight" Value="27" />
+        <Setter Property="prop:CustomizeProperty.Icon" Value="{StaticResource IconBell}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Padding="{TemplateBinding Padding}"
+                            CornerRadius="5 5 5 5">
+                        <Border.Effect>
+                            <DropShadowEffect Opacity="0.08"/>
+                        </Border.Effect>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Image x:Name="icon" 
+                                   Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(prop:CustomizeProperty.IconHeight)}"
+                                   Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(prop:CustomizeProperty.IconWidth)}"
+                                   Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(prop:CustomizeProperty.Icon)}"/>
+                            
+                            <TextBlock Text="{TemplateBinding Content}"
+                                       FontFamily="{TemplateBinding FontFamily}"
+                                       FontSize="{TemplateBinding FontSize}"
+                                       FontWeight="{TemplateBinding FontWeight}"
+                                       FontStyle="{TemplateBinding FontStyle}"
+                                       Foreground="{TemplateBinding Foreground}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       Margin="5 0 0 0"/>
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(prop:CustomizeProperty.ColorHover)}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(prop:CustomizeProperty.ColorDisable)}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(prop:CustomizeProperty.BorderBrushDisable)}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity="0.5"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ButtonText" TargetType="{x:Type Button}">
+        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize24}" />
+        <Setter Property="FontWeight" Value="{StaticResource Bold}" />
+        <Setter Property="Foreground" Value="{StaticResource Color20Brush}" />
+        <Setter Property="FontStyle" Value="Normal" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <TextBlock x:Name="text" Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" 
+                               FontFamily="{TemplateBinding FontFamily}"
+                               FontSize="{TemplateBinding FontSize}"
+                               Foreground="{TemplateBinding Foreground}"
+                               FontStyle="{TemplateBinding FontStyle}"
+                               HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                               VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                               />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

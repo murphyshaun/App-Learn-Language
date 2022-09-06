@@ -1,0 +1,163 @@
+﻿<UserControl x:Class="LearnNewWord.View.ListWordView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:prop="clr-namespace:LearnNewWord.Managers.Properties"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="../Managers/Resource/MergeResource.xaml" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBox  Style="{StaticResource TextIconStyle}"
+                Text="{Binding TextSearch, UpdateSourceTrigger=PropertyChanged}"
+                Width="150" Height="30"
+                FontSize="{StaticResource FontSize16}"
+                HorizontalAlignment="Right"
+                prop:CustomizeProperty.IconWidth="25"
+                prop:CustomizeProperty.IconHeight="25"
+                prop:CustomizeProperty.Icon="{StaticResource IconLoupe}"
+                prop:CustomizeProperty.CustomCommand="{Binding SearchNewWordCommand}">
+            <TextBox.InputBindings>
+                <KeyBinding Command="{Binding SearchNewWordCommand}" Key="Enter" />
+            </TextBox.InputBindings>
+        </TextBox>
+
+        <Grid  Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="2" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="1 4 0 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Height="18"
+                            BorderThickness="0 0 2 0"
+                            BorderBrush="{StaticResource Color4Brush}"
+                            VerticalAlignment="Bottom">
+
+                    <TextBlock Grid.Column="0" Text="No."
+                                    Style="{StaticResource TextBlockStyle1}"
+                                    FontWeight="{StaticResource SemiBold}"
+                                    FontSize="{StaticResource FontSize18}"
+                                    Margin="10 0 0 -2" />
+                </Border>
+
+                <Border Grid.Column="1" Height="18"
+                            BorderThickness="0 0 2 0"
+                            BorderBrush="{StaticResource Color4Brush}"
+                            VerticalAlignment="Bottom">
+
+                    <TextBlock Grid.Column="0" Text="English"
+                                Style="{StaticResource TextBlockStyle1}"
+                                FontWeight="{StaticResource SemiBold}"
+                                FontSize="{StaticResource FontSize18}"
+                                Margin="10 0 0 -2" />
+                </Border>
+
+                <Border Grid.Column="2" Height="18"
+                            BorderThickness="0 0 2 0"
+                            BorderBrush="{StaticResource Color4Brush}"
+                            VerticalAlignment="Bottom">
+
+                    <TextBlock Grid.Column="0" Text="Vietnamese"
+                                Style="{StaticResource TextBlockStyle1}"
+                                FontWeight="{StaticResource SemiBold}"
+                                FontSize="{StaticResource FontSize18}"
+                                Margin="10 0 0 -2" />
+                </Border>
+            </Grid>
+
+            <Separator Grid.Row="1" Height="2"
+                            Background="{StaticResource Color13Brush}"
+                            Margin="0" Padding="0" />
+
+            <ListBox Grid.Row="2"
+                        BorderThickness="0"
+                        HorizontalAlignment="Stretch"
+                        Background="Transparent"
+                        ItemsSource="{Binding ListWordFilter, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedItem="{Binding WordSelected, UpdateSourceTrigger=PropertyChanged}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        ScrollViewer.CanContentScroll="False"
+                        AlternationCount="{Binding TotalRow, UpdateSourceTrigger=PropertyChanged}">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" />
+                        <Setter Property="ContextMenu">
+                            <Setter.Value>
+                                <ContextMenu>
+                                    <MenuItem Header="Edit" Command="{Binding PlacementTarget.Tag.EditItemCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
+                                    <MenuItem Header="Remove" Command="{Binding PlacementTarget.Tag.RemoveItemCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
+                                </ContextMenu>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <Grid x:Name="grid" Height="30" Background="Transparent">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0"
+                                                        x:Name="Index"
+                                                        Text="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource IndexListItemConverter}}"
+                                                        Style="{StaticResource TextBlockStyle4}"
+                                                        FontSize="{StaticResource FontSize16}"
+                                                        Margin="15 0 0 0" />
+
+                                        <TextBlock Grid.Column="1"
+                                                        x:Name="English"
+                                                        Text="{Binding English}"
+                                                        Style="{StaticResource TextBlockStyle4}"
+                                                        FontSize="{StaticResource FontSize16}"
+                                                        Margin="15 0 0 0" />
+
+                                        <TextBlock Grid.Column="2"
+                                                        x:Name="Vietnamese"
+                                                        Text="{Binding Vietnamese}"
+                                                        Style="{StaticResource TextBlockStyle4}"
+                                                        FontSize="{StaticResource FontSize16}"
+                                                        Margin="15 0 0 0" />
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding Path=(ItemsControl.AlternationIndex),
+                                                        RelativeSource={RelativeSource Self},
+                                                        Converter={StaticResource AlternationIndexConverter}}" Value="0">
+                                            <Setter TargetName="grid" Property="Background"  Value="{StaticResource Color7Brush}" />
+                                        </DataTrigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="grid" Property="Background" Value="{StaticResource Color17Brush}" />
+                                            <Setter TargetName="Index" Property="Foreground" Value="{StaticResource WhiteBrush}" />
+                                            <Setter TargetName="English" Property="Foreground" Value="{StaticResource WhiteBrush}" />
+                                            <Setter TargetName="Vietnamese" Property="Foreground" Value="{StaticResource WhiteBrush}" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+        </Grid>
+    </Grid>
+</UserControl>

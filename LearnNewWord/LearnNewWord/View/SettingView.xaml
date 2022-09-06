@@ -1,0 +1,163 @@
+﻿<UserControl x:Class="LearnNewWord.View.SettingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LearnNewWord.View"
+             xmlns:prop="clr-namespace:LearnNewWord.Managers.Properties"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="../Managers/Resource/MergeResource.xaml" />
+    </UserControl.Resources>
+    
+    <Grid>
+        <StackPanel Background="Transparent"
+                    Visibility="{Binding ElementName=Setting, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    IsEnabled="{Binding IsPractice, UpdateSourceTrigger=PropertyChanged}">
+
+            <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
+                <CheckBox x:Name="AllData"
+                            Content="All"
+                            FontSize="{StaticResource FontSize20}"
+                            Height="22"
+                            IsChecked="{Binding IsGetAllSetting, UpdateSourceTrigger=PropertyChanged}" />
+
+                <CheckBox x:Name="KnownSetting"
+                            Content="Known"
+                            FontSize="{StaticResource FontSize20}"
+                            Height="22"
+                            Margin="25 0 0 0"
+                            IsChecked="{Binding IsKnownSetting, UpdateSourceTrigger=PropertyChanged}" 
+                            IsEnabled="{Binding ElementName=AllData, Path=IsChecked, Converter={StaticResource BooleanReverseConverter}}"/>
+
+                <CheckBox Grid.Row="1"  Grid.Column="1" Content="Random"
+                          IsChecked="{Binding IsRandom, UpdateSourceTrigger=PropertyChanged}"
+                          Margin="25 0 0 0"
+                          Height="22"
+                          Visibility="{Binding IsPractice, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="0" Orientation="Horizontal"  Margin="0 5 0 0">
+                <TextBlock Text="From"
+                            Style="{StaticResource TextBlockStyle3}"
+                            FontSize="{StaticResource FontSize20}" />
+
+                <TextBox  Style="{StaticResource TextBoxStyle1}"
+                        Width="70" Height="30"
+                        Text="{Binding FromIndex, UpdateSourceTrigger=PropertyChanged}"
+                        BorderThickness="1"
+                        FontSize="{StaticResource FontSize16}"
+                        prop:TextBoxHelpers.IsNumeric="True"
+                        IsEnabled="{Binding ElementName=AllData, Path=IsChecked, Converter={StaticResource BooleanReverseConverter}}" />
+
+                <TextBlock Text="to" Style="{StaticResource TextBlockStyle3}" Margin="15 0 15 0" />
+
+                <TextBox  Style="{StaticResource TextBoxStyle1}"
+                        Width="70" Height="30"
+                        Text="{Binding ToIndex, UpdateSourceTrigger=PropertyChanged}"
+                        BorderThickness="1"
+                        FontSize="{StaticResource FontSize16}"
+                        prop:TextBoxHelpers.IsNumeric="True"
+                        IsEnabled="{Binding ElementName=AllData, Path=IsChecked, Converter={StaticResource BooleanReverseConverter}}" />
+
+                <Button Grid.Row="0" Grid.Column="0"
+                        Width="35" Height="35"
+                        prop:CustomizeProperty.IconWidth="35"
+                        prop:CustomizeProperty.IconHeight="35"
+                        BorderThickness="0"
+                        prop:CustomizeProperty.Icon="{StaticResource IconRefesh}"
+                        HorizontalAlignment="Left"
+                        Margin="40 0 0 0"
+                        Command="{Binding RefreshWordsCommand}">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource ButtonIcon}" TargetType="Button">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ToIndex, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+
+            <ListBox
+                BorderThickness="1"
+                Height="339"
+                Background="Transparent"
+                ItemsSource="{Binding ListCategory, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding CategorySelected, UpdateSourceTrigger=PropertyChanged}"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                HorizontalAlignment="Stretch"
+                Margin="0 15 0 10">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <Grid x:Name="grid" Height="25" Background="Transparent">
+                                        <TextBlock Grid.Column="0"
+                                                        x:Name="Name"
+                                                        Style="{StaticResource TextBlockStyle4}"
+                                                        FontSize="{StaticResource FontSize15}"
+                                                        Margin="15 0 0 0">
+                                            <Run Text="{Binding Name}" /> <Run 
+                                                Text=" (" Foreground="{StaticResource Color10Brush}"/> <Run 
+                                                Text="{Binding Total}" Foreground="{StaticResource Color10Brush}"/> <Run 
+                                                Text=")" Foreground="{StaticResource Color10Brush}"/>
+                                        </TextBlock>
+
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="grid" Property="Background" Value="{StaticResource Color17Brush}" />
+                                            <Setter TargetName="Name" Property="Foreground" Value="{StaticResource WhiteBrush}" />
+
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="NameCategory"  Style="{StaticResource TextBoxStyle1}"
+                        Width="200" Height="30"
+                        Text="{Binding NameCategory, UpdateSourceTrigger=PropertyChanged}"
+                        BorderThickness="1"
+                        FontSize="{StaticResource FontSize16}"
+                       >
+                    <TextBox.InputBindings>
+                        <KeyBinding Command="{Binding AddCategoryCommand}" Key="Enter" />
+                    </TextBox.InputBindings>
+                </TextBox>
+
+                <Button  Style="{StaticResource ButtonIcon}"
+                        Width="30" Height="30"
+                        prop:CustomizeProperty.IconWidth="30"
+                        prop:CustomizeProperty.IconHeight="30"
+                        BorderThickness="0"
+                        prop:CustomizeProperty.Icon="{StaticResource IconAdd}"
+                        HorizontalAlignment="Left"
+                        Margin="20 0 0 0"
+                        Command="{Binding AddCategoryCommand}" 
+                         IsEnabled="{Binding ElementName=NameCategory, Path=Text, Converter={StaticResource StringToBooleanConverter}}"
+                         />
+                
+                <Button  Style="{StaticResource ButtonIcon}"
+                        Width="30" Height="30"
+                        prop:CustomizeProperty.IconWidth="30"
+                        prop:CustomizeProperty.IconHeight="30"
+                        BorderThickness="0"
+                        prop:CustomizeProperty.Icon="{StaticResource IconRefesh}"
+                        Margin="110 0 0 0"
+                        Command="{Binding RefreshCategoryCommand}" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>
