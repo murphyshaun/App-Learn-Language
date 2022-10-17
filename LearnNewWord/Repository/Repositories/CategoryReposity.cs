@@ -1,4 +1,5 @@
 ﻿using Common.Dto;
+using Repository.Infrastructure;
 using Repository.IRepositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,6 +8,10 @@ namespace Repository.Repositories
 {
     public class CategoryReposity : BaseRepository, ICategoryRepository
     {
+        public CategoryReposity(IUnitOfWork unitOfWork) : base(unitOfWork)
+        {
+        }
+
         /// <summary>
         /// Adds the category.
         /// </summary>

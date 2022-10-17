@@ -87,6 +87,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\ManagerConnection.cs" />
+    <Compile Include="Infrastructure\DbFactory.cs" />
+    <Compile Include="Infrastructure\Disposable.cs" />
+    <Compile Include="Infrastructure\IDbFactory.cs" />
+    <Compile Include="Infrastructure\IUnitOfWork.cs" />
+    <Compile Include="Infrastructure\UnitOfWork.cs" />
+    <Compile Include="IRepositories\IBaseRepository.cs" />
     <Compile Include="IRepositories\ICategoryRepository.cs" />
     <Compile Include="IRepositories\IWordRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,12 +1,20 @@
 ﻿using Dapper;
-using Repository.Connection;
+using Repository.Infrastructure;
+using Repository.IRepositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Repository.Repositories
 {
-    public class BaseRepository
+    public class BaseRepository : IBaseRepository
     {
+        private readonly IUnitOfWork _unitOfWork;
+
+        public BaseRepository(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
         /// <summary>
         /// Queries the first or default asynchronous.
         /// </summary>
@@ -16,7 +24,7 @@ namespace Repository.Repositories
         /// <returns></returns>
         protected async Task<T> QueryFirstOrDefaultAsync<T>(string sql, object parameters = null)
         {
-            using (var connection = ManagerConnection.CreateConnection)
+            using (var connection = _unitOfWork.DbContext)
             {
                 return await connection.QueryFirstOrDefaultAsync<T>(sql, parameters);
             }
@@ -31,7 +39,7 @@ namespace Repository.Repositories
         /// <returns></returns>
         protected async Task<IEnumerable<T>> QueryAsync<T>(string sql, object parameters = null)
         {
-            using (var connection = ManagerConnection.CreateConnection)
+            using (var connection = _unitOfWork.DbContext)
             {
                 return await connection.QueryAsync<T>(sql, parameters);
             }
@@ -45,7 +53,7 @@ namespace Repository.Repositories
         /// <returns></returns>
         protected async Task<int> ExecuteAsync(string sql, object parameters = null)
         {
-            using (var connection = ManagerConnection.CreateConnection)
+            using (var connection = _unitOfWork.DbContext)
             {
                 return await connection.ExecuteAsync(sql, parameters);
             }
@@ -60,7 +68,7 @@ namespace Repository.Repositories
         /// <returns></returns>
         protected async Task<T> ExecuteScalarAsync<T>(string sql, object parameters = null)
         {
-            using (var connection = ManagerConnection.CreateConnection)
+            using (var connection = _unitOfWork.DbContext)
             {
                 return await connection.ExecuteScalarAsync<T>(sql, parameters);
             }

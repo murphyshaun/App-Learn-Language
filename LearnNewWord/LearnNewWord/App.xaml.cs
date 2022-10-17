@@ -5,6 +5,7 @@ using LearnNewWord.View;
 using LearnNewWord.ViewModel;
 using Prism.Ioc;
 using Prism.Unity;
+using Repository.Infrastructure;
 using Repository.IRepositories;
 using Repository.Repositories;
 using Service.IService;
@@ -40,6 +41,8 @@ namespace LearnNewWord
             #region Repositories
             containerRegistry.Register<IWordRepository, WordRepository>();
             containerRegistry.Register<ICategoryRepository, CategoryReposity>();
+            containerRegistry.Register<IUnitOfWork, UnitOfWork>();
+            containerRegistry.Register<IDbFactory, DbFactory>();
             #endregion
 
 
