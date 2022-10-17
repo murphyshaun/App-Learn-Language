@@ -1,9 +1,16 @@
 ﻿using Common.Extension;
+using System.Data.SQLite;
 
 namespace Repository.Connection
 {
-    internal static class ManagerConnection
+    internal class ManagerConnection
     {
-        internal static readonly string ConnectionString = string.Format($"Data Source={EnvironmentPath.PathFileDatabase}");
+        //private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private static readonly string connectionString = string.Format($"Data Source={EnvironmentPath.PathFileDatabase}");
+
+        public static SQLiteConnection CreateConnection
+        {
+            get => new SQLiteConnection(connectionString);
+        }
     }
 }
